@@ -10,6 +10,8 @@ packages = [{include = "pheval_svanna", from = "src"}]
 python = "^3.10"
 pheval = {git = "https://github.com/monarch-initiative/pheval.git"}
 
+[tool.poetry.scripts]
+pheval-svanna = "pheval_svanna.cli:main"
 
 [build-system]
 requires = ["poetry-core"]
