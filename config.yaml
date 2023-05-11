@@ -1,0 +1,6 @@
+tool: SvAnna
+tool_version: 1.0.3
+phenotype_only: False
+tool_specific_configuration_options:
+  post_process:
+    sort_order: descending
