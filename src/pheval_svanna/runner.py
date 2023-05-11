@@ -47,6 +47,6 @@ class SvAnnaPhEvalRunner(PhEvalRunner):
         config = SvAnnaToolSpecificConfigurations.parse_obj(
             self.input_dir_config.tool_specific_configuration_options
         )
-        post_process_results_format(raw_results_dir=self.raw_results_dir,
-                                    output_dir=self.output_dir,
-                                    config=config)
+        post_process_results_format(
+            raw_results_dir=self.raw_results_dir, output_dir=self.output_dir, config=config
+        )

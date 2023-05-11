@@ -34,7 +34,7 @@ def prepare_svanna_commands(
         vcf_dir=vcf_dir,
         results_dir=raw_results_dir,
         output_format=tool_specific_configurations.output_formats.split(","),
-        input_data=input_dir
+        input_data=input_dir,
     )
 
 

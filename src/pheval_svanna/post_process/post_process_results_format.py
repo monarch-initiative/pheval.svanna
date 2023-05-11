@@ -2,10 +2,7 @@ from pathlib import Path
 
 import click
 import pandas as pd
-from pheval.post_processing.post_processing import (
-    PhEvalVariantResult,
-    generate_pheval_result,
-)
+from pheval.post_processing.post_processing import PhEvalVariantResult, generate_pheval_result
 from pheval.utils.file_utils import files_with_suffix
 
 
@@ -76,7 +73,9 @@ def create_standardised_results(raw_results_dir: Path, output_dir: Path, sort_or
         pheval_gene_result = PhEvalVariantResultFromSvAnna(
             svanna_result
         ).extract_pheval_requirements()
-        generate_pheval_result(pheval_gene_result, sort_order, output_dir, trim_svanna_result(result))
+        generate_pheval_result(
+            pheval_gene_result, sort_order, output_dir, trim_svanna_result(result)
+        )
 
 
 @click.command("post-process")

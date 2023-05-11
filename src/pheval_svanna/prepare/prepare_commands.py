@@ -3,7 +3,7 @@ from pathlib import Path
 
 import click
 from pheval.utils.file_utils import all_files
-from pheval.utils.phenopacket_utils import phenopacket_reader, PhenopacketUtil
+from pheval.utils.phenopacket_utils import PhenopacketUtil, phenopacket_reader
 
 
 @dataclass
@@ -22,13 +22,12 @@ def get_vcf_path(phenopacket_path: Path, vcf_dir: Path):
 
 
 def create_command_line_arguments(
-        svanna_jar_file: Path,
-        phenopacket_path: Path,
-        vcf_path: Path,
-        output_dir: Path,
-        input_data: Path,
-        output_format: list[str],
-
+    svanna_jar_file: Path,
+    phenopacket_path: Path,
+    vcf_path: Path,
+    output_dir: Path,
+    input_data: Path,
+    output_format: list[str],
 ):
     return SvAnnaCommandLineArguments(
         svanna_jar_file=svanna_jar_file,
@@ -47,10 +46,7 @@ class CommandWriter:
 
     def write_java_command(self, command_line_arguments: SvAnnaCommandLineArguments):
         self.file.write(
-            "java "
-            + "-jar "
-            + str(command_line_arguments.svanna_jar_file)
-            + " prioritize "
+            "java " + "-jar " + str(command_line_arguments.svanna_jar_file) + " prioritize "
         )
 
     def write_phenopacket(self, command_line_arguments: SvAnnaCommandLineArguments):
@@ -89,14 +85,13 @@ class CommandWriter:
 
 
 def write_command(
-        command_writer: CommandWriter,
-        svanna_jar_file: Path,
-        phenopacket_path: Path,
-        vcf_path: Path,
-        output_dir: Path,
-        input_data: Path,
-        output_format: list[str]
-
+    command_writer: CommandWriter,
+    svanna_jar_file: Path,
+    phenopacket_path: Path,
+    vcf_path: Path,
+    output_dir: Path,
+    input_data: Path,
+    output_format: list[str],
 ):
     command_line_arguments = create_command_line_arguments(
         svanna_jar_file=svanna_jar_file,
@@ -104,19 +99,19 @@ def write_command(
         vcf_path=vcf_path,
         output_dir=output_dir,
         input_data=input_data,
-        output_format=output_format
+        output_format=output_format,
     )
     command_writer.write_command(command_line_arguments)
 
 
 def write_commands(
-        command_file_path: Path,
-        svanna_jar_file: Path,
-        phenopacket_dir: Path,
-        vcf_dir: Path,
-        output_dir: Path,
-        input_data: Path,
-        output_format: list[str]
+    command_file_path: Path,
+    svanna_jar_file: Path,
+    phenopacket_dir: Path,
+    vcf_dir: Path,
+    output_dir: Path,
+    input_data: Path,
+    output_format: list[str],
 ):
     phenopackets = all_files(phenopacket_dir)
     command_writer = CommandWriter(command_file_path)
@@ -128,20 +123,20 @@ def write_commands(
             vcf_path=get_vcf_path(phenopacket_path, vcf_dir),
             output_dir=output_dir,
             input_data=input_data,
-            output_format=output_format
+            output_format=output_format,
         )
     command_writer.close()
 
 
 def prepare_commands(
-        svanna_jar_file: Path,
-        output_dir: Path,
-        file_prefix: str,
-        phenopacket_dir: Path,
-        results_dir: Path,
-        vcf_dir: Path,
-        output_format: list[str],
-        input_data: Path
+    svanna_jar_file: Path,
+    output_dir: Path,
+    file_prefix: str,
+    phenopacket_dir: Path,
+    results_dir: Path,
+    vcf_dir: Path,
+    output_format: list[str],
+    input_data: Path,
 ):
     command_file_path = output_dir.joinpath(f"{file_prefix}-l4ci-batch.txt")
     write_commands(
@@ -151,7 +146,7 @@ def prepare_commands(
         phenopacket_dir=phenopacket_dir,
         vcf_dir=vcf_dir,
         output_format=output_format,
-        input_data=input_data
+        input_data=input_data,
     )
 
 
@@ -218,17 +213,17 @@ def prepare_commands(
     required=True,
     help="Output formats for results.",
     multiple=True,
-    default=["tsv"]
+    default=["tsv"],
 )
 def prepare_commands_command(
-        svanna_jar_file: Path,
-        output_dir: Path,
-        file_prefix: str,
-        phenopacket_dir: Path,
-        results_dir: Path,
-        vcf_dir: Path,
-        output_format: list[str],
-        input_data: Path
+    svanna_jar_file: Path,
+    output_dir: Path,
+    file_prefix: str,
+    phenopacket_dir: Path,
+    results_dir: Path,
+    vcf_dir: Path,
+    output_format: list[str],
+    input_data: Path,
 ):
     output_dir.joinpath("tool_input_commands").mkdir(parents=True, exist_ok=True)
     prepare_commands(
@@ -239,5 +234,5 @@ def prepare_commands_command(
         results_dir=results_dir,
         vcf_dir=vcf_dir,
         output_format=output_format,
-        input_data=input_data
+        input_data=input_data,
     )
