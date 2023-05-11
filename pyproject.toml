@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{ include = "pheval_svanna", from = "src" }]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.9,<4.0.0"
 pheval = { git = "https://github.com/monarch-initiative/pheval.git" }
 pydantic = "^1.10.7"
 
