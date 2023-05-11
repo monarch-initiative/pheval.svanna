@@ -60,13 +60,16 @@ class CommandWriter:
         self.file.write(" --vcf " + str(command_line_arguments.vcf_path))
 
     def write_output_directory(self, command_line_arguments: SvAnnaCommandLineArguments):
-        self.file.write(" --output-dir " + str(command_line_arguments.output_dir))
+        self.file.write(" --out-dir " + str(command_line_arguments.output_dir))
 
     def write_data_directory(self, command_line_arguments: SvAnnaCommandLineArguments):
         self.file.write(" --data-directory " + str(command_line_arguments.input_data))
 
     def write_output_format(self, command_line_arguments: SvAnnaCommandLineArguments):
-        self.file.write(" --output-format " + ", ".join(command_line_arguments.output_format))
+        self.file.write(" --output-format " + ",".join(command_line_arguments.output_format))
+
+    def write_uncompressed(self):
+        self.file.write(" --uncompressed-output")
 
     def write_command(self, command_line_arguments: SvAnnaCommandLineArguments):
         try:
@@ -76,6 +79,7 @@ class CommandWriter:
             self.write_output_directory(command_line_arguments)
             self.write_data_directory(command_line_arguments)
             self.write_output_format(command_line_arguments)
+            self.write_uncompressed()
             self.file.write("\n")
         except IOError:
             print(f"Error writing {self.output_file}")
