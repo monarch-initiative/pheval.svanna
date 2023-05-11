@@ -4,14 +4,18 @@ version = "0.1.0"
 description = ""
 authors = ["Yasemin Bridges <y.bridges@qmul.ac.uk>"]
 readme = "README.md"
-packages = [{include = "pheval_svanna", from = "src"}]
+packages = [{ include = "pheval_svanna", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pheval = {git = "https://github.com/monarch-initiative/pheval.git"}
+pheval = { git = "https://github.com/monarch-initiative/pheval.git" }
+pydantic = "^1.10.7"
 
 [tool.poetry.scripts]
 pheval-svanna = "pheval_svanna.cli:main"
+
+[tool.poetry.plugins."pheval.plugins"]
+svanna = "pheval_svanna.runner:SvAnnaPhEvalRunner"
 
 [build-system]
 requires = ["poetry-core"]
