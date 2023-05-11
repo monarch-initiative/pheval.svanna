@@ -4,6 +4,7 @@ from pathlib import Path
 
 from pheval.runners.runner import PhEvalRunner
 
+from pheval_svanna.post_process.post_process import post_process_results_format
 from pheval_svanna.run.run import prepare_svanna_commands, run_svanna_local
 from pheval_svanna.tool_specific_configuration_parser import SvAnnaToolSpecificConfigurations
 
@@ -43,3 +44,9 @@ class SvAnnaPhEvalRunner(PhEvalRunner):
     def post_process(self):
         """post_process"""
         print("post processing")
+        config = SvAnnaToolSpecificConfigurations.parse_obj(
+            self.input_dir_config.tool_specific_configuration_options
+        )
+        post_process_results_format(raw_results_dir=self.raw_results_dir,
+                                    output_dir=self.output_dir,
+                                    config=config)
