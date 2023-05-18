@@ -7,11 +7,12 @@ from pheval.utils.file_utils import files_with_suffix
 
 
 def read_svanna_result(svanna_result_path: Path) -> pd.DataFrame:
-    """Read LIRICAL tsv output and return a dataframe."""
+    """Read SvAnna tsv output and return a dataframe."""
     return pd.read_csv(svanna_result_path, delimiter="\t")
 
 
 def trim_svanna_result(svanna_result_path: Path) -> Path:
+    """Trim .SVANNA from results filename."""
     return Path(str(svanna_result_path.name.replace(".SVANNA", "")))
 
 
@@ -22,22 +23,22 @@ class PhEvalVariantResultFromSvAnna:
     @staticmethod
     def obtain_score(svanna_result_entry: pd.Series) -> float:
         """Obtain score from result."""
-        return svanna_result_entry["psv"]
+        return float(svanna_result_entry["psv"])
 
     @staticmethod
     def obtain_chromosome(svanna_result_entry: pd.Series) -> str:
-        """Obtain chromosome from variant string."""
+        """Obtain chromosome from result."""
         return svanna_result_entry["contig"]
 
     @staticmethod
     def obtain_start(svanna_result_entry: pd.Series) -> int:
         """Obtain start position from result."""
-        return svanna_result_entry["start"]
+        return int(svanna_result_entry["start"])
 
     @staticmethod
     def obtain_end(svanna_result_entry: pd.Series) -> int:
         """Obtain end position from result."""
-        return svanna_result_entry["end"]
+        return int(svanna_result_entry["end"])
 
     @staticmethod
     def obtain_ref() -> str:
@@ -67,20 +68,20 @@ class PhEvalVariantResultFromSvAnna:
 
 
 def create_standardised_results(raw_results_dir: Path, output_dir: Path, sort_order: str) -> None:
-    """Write standardised gene and variant results from LIRICAL tsv output."""
+    """Write standardised variant results from SvAnna tsv output."""
     for result in files_with_suffix(raw_results_dir, ".tsv"):
         svanna_result = read_svanna_result(result)
-        pheval_gene_result = PhEvalVariantResultFromSvAnna(
+        pheval_variant_result = PhEvalVariantResultFromSvAnna(
             svanna_result
         ).extract_pheval_requirements()
         generate_pheval_result(
-            pheval_gene_result, sort_order, output_dir, trim_svanna_result(result)
+            pheval_variant_result, sort_order, output_dir, trim_svanna_result(result)
         )
 
 
 @click.command("post-process")
 @click.option(
-    "--results-dir", "-r", required=True, help="Path to LIRICAL results directory.", type=Path
+    "--results-dir", "-r", required=True, help="Path to SvAnna results directory.", type=Path
 )
 @click.option("--output-dir", "-o", required=True, help="Path to output directory.", type=Path)
 @click.option(
@@ -93,6 +94,6 @@ def create_standardised_results(raw_results_dir: Path, output_dir: Path, sort_or
     show_default=True,
 )
 def post_process(results_dir: Path, output_dir: Path, sort_order: str):
-    """Post-process SvAnna .tsv results to PhEval gene and variant result format."""
+    """Post-process SvAnna .tsv results to PhEval variant result format."""
     output_dir.joinpath("pheval_variant_results/").mkdir(exist_ok=True, parents=True)
     create_standardised_results(results_dir, output_dir, sort_order)
