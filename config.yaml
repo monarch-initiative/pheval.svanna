@@ -3,6 +3,6 @@ tool_version: 1.0.3
 phenotype_only: False
 tool_specific_configuration_options:
   svanna_jar_executable: svanna-cli-1.0.3/svanna-cli-1.0.3.jar
-  output_formats: tsv
+  output_formats: tsv # could be csv,tsv,vcf,html
   post_process:
     sort_order: descending
