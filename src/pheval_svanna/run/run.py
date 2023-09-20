@@ -1,4 +1,3 @@
-import os
 import subprocess
 from pathlib import Path
 
@@ -16,16 +15,8 @@ def prepare_svanna_commands(
     tool_specific_configurations: SvAnnaToolSpecificConfigurations,
 ):
     """Write commands to run SvAnna."""
-    phenopacket_dir = Path(testdata_dir).joinpath(
-        [
-            directory
-            for directory in os.listdir(str(testdata_dir))
-            if "phenopacket" in str(directory)
-        ][0]
-    )
-    vcf_dir = Path(testdata_dir).joinpath(
-        [directory for directory in os.listdir(str(testdata_dir)) if "vcf" in str(directory)][0]
-    )
+    phenopacket_dir = Path(testdata_dir).joinpath("phenopackets")
+    vcf_dir = Path(testdata_dir).joinpath("vcf")
     prepare_commands(
         svanna_jar_file=input_dir.joinpath(tool_specific_configurations.svanna_jar_executable),
         output_dir=tool_input_commands_dir,
@@ -33,7 +24,7 @@ def prepare_svanna_commands(
         phenopacket_dir=phenopacket_dir,
         vcf_dir=vcf_dir,
         results_dir=raw_results_dir,
-        output_format=tool_specific_configurations.output_formats.split(","),
+        output_format="tsv",
         input_data=input_dir,
     )
 
