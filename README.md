@@ -41,8 +41,6 @@ The bare minimum fields are filled to give an idea on the requirements, as SvAnn
 The `svanna_jar_executable` points to the location of the Svanna jar executable in the input directory.
 
 
-
-```
 ### Setting up the testdata directory
 
 The SvAnna plugin for PhEval accepts phenopackets and vcf files as an input. 
