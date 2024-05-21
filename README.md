@@ -8,12 +8,17 @@ This is the SvAnna plugin for PhEval. With this plugin, you can leverage the str
 Clone the pheval.svanna repo and set up the poetry environment:
 
 ```shell
-git clone https://github.com/yaseminbridges/pheval.svanna.git
+git clone https://github.com/monarch-initiative/pheval.svanna.git
 cd pheval.svanna
 poetry shell
 poetry install
 ```
 
+or install with PyPi:
+
+```sh
+pip install pheval.svanna
+```
 ## Configuring a *single* run:
 
 ### Setting up the input directory
