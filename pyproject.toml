@@ -8,8 +8,7 @@ packages = [{ include = "pheval_svanna", from = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0.0"
-pydantic = "^1.10.7"
-pheval = "^0.3.1"
+pheval = "^0.4.0"
 
 [tool.poetry.scripts]
 pheval-svanna = "pheval_svanna.cli:main"
