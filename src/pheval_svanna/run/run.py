@@ -24,7 +24,7 @@ def prepare_svanna_commands(
         phenopacket_dir=phenopacket_dir,
         vcf_dir=vcf_dir,
         results_dir=raw_results_dir,
-        output_format="tsv",
+        output_format=["tsv"],
         input_data=input_dir,
     )
 
