@@ -1,11 +1,10 @@
 import unittest
 
-import pandas as pd
-from pheval.post_processing.post_processing import PhEvalVariantResult
+import polars as pl
 
-from pheval_svanna.post_process.post_process_results_format import PhEvalVariantResultFromSvAnna
+from pheval_svanna.post_process.post_process_results_format import extract_variant_results
 
-svanna_results = pd.DataFrame(
+svanna_results = pl.DataFrame(
     [
         {
             "contig": "19",
@@ -37,59 +36,38 @@ svanna_results = pd.DataFrame(
     ]
 )
 
-svanna_result = svanna_results.iloc[0]
 
-
-class TestPhEvalVariantResultFromSvAnna(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.variant_result = PhEvalVariantResultFromSvAnna(svanna_results)
-
-    def test_obtain_score(self):
-        self.assertEqual(self.variant_result.obtain_score(svanna_result), 4.7851300482957155)
-
-    def test_obtain_chromosome(self):
-        self.assertEqual(self.variant_result.obtain_chromosome(svanna_result), "19")
-
-    def test_obtain_start(self):
-        self.assertEqual(self.variant_result.obtain_start(svanna_result), 55158139)
-
-    def test_obtain_end(self):
-        self.assertEqual(self.variant_result.obtain_end(svanna_result), 55158175)
-
-    def test_obtain_ref(self):
-        self.assertEqual(self.variant_result.obtain_ref(), "N")
-
-    def test_obtain_alt(self):
-        self.assertEqual(self.variant_result.obtain_alt(svanna_result), "DEL")
-
-    def test_extract_pheval_requirements(self):
-        self.assertEqual(
-            self.variant_result.extract_pheval_requirements(),
-            [
-                PhEvalVariantResult(
-                    chromosome="19",
-                    start=55158139,
-                    end=55158175,
-                    ref="N",
-                    alt="DEL",
-                    score=4.7851300482957155,
-                ),
-                PhEvalVariantResult(
-                    chromosome="2",
-                    start=219469370,
-                    end=219469406,
-                    ref="N",
-                    alt="DEL",
-                    score=4.695487573142047,
-                ),
-                PhEvalVariantResult(
-                    chromosome="1",
-                    start=156106617,
-                    end=156106639,
-                    ref="N",
-                    alt="DEL",
-                    score=4.265903696888752,
-                ),
-            ],
+class TestPostProcessResultsFromSvAnna(unittest.TestCase):
+    def test_extract_variant_results(self):
+        self.assertTrue(
+            extract_variant_results(svanna_results).equals(
+                pl.DataFrame(
+                    [
+                        {
+                            "chrom": "19",
+                            "start": 55158139,
+                            "end": 55158175,
+                            "ref": "N",
+                            "alt": "DEL",
+                            "score": 4.7851300482957155,
+                        },
+                        {
+                            "chrom": "2",
+                            "start": 219469370,
+                            "end": 219469406,
+                            "ref": "N",
+                            "alt": "DEL",
+                            "score": 4.695487573142047,
+                        },
+                        {
+                            "chrom": "1",
+                            "start": 156106617,
+                            "end": 156106639,
+                            "ref": "N",
+                            "alt": "DEL",
+                            "score": 4.265903696888752,
+                        },
+                    ]
+                )
+            )
         )
