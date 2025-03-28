@@ -1,14 +1,14 @@
 [tool.poetry]
 name = "pheval-svanna"
-version = "0.1.2"
+version = "0.2.0"
 description = ""
 authors = ["Yasemin Bridges <y.bridges@qmul.ac.uk>"]
 readme = "README.md"
 packages = [{ include = "pheval_svanna", from = "src" }]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0.0"
-pheval = "^0.4.0"
+python = ">=3.10,<4.0.0"
+pheval = "^0.5.2"
 
 [tool.poetry.scripts]
 pheval-svanna = "pheval_svanna.cli:main"
